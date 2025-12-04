@@ -134,37 +134,5 @@ BEGIN
         insert_rand_food_for(v_dinner_id, 'Coffee & Tea');
     END IF;
 
-    -- upsert totals
-    UPDATE MC_90_DAYS_MENU m
-       SET (
-           SUM_FAT_DAILY_PERC,
-           SUM_SATURATED_FAT_DAILY_PERC,
-           SUM_CHOLESTEROL_DAILY_PERC,
-           SUM_SODIUM_DAILY_PERC,
-           SUM_CARBOHYDRATES_DAILY_PERC,
-           SUM_DIETARY_FIBER_DAILY_PERC,
-           SUM_VITAMIN_A_DAILY_PERC,
-           SUM_VITAMIN_C_DAILY_PERC,
-           SUM_CALCIUM_DAILY_PERC,
-           SUM_IRON_DAILY_PERC
-       ) = (
-           SELECT
-               SUM(mi.TOTAL_FAT_PERC_DAILY_VALUE),
-               SUM(mi.SATURATED_FAT_PERC_DAILY_VALUE),
-               SUM(mi.CHOLESTEROL_PERC_DAILY_VALUE),
-               SUM(mi.SODIUM_PERC_DAILY_VALUE),
-               SUM(mi.CARBOHYDRATES_PERC_DAILY_VALUE),
-               SUM(mi.DIETARY_FIBER_PERC_DAILY_VALUE),
-               SUM(mi.VITAMIN_A_PERC_DAILY_VALUE),
-               SUM(mi.VITAMIN_C_PERC_DAILY_VALUE),
-               SUM(mi.CALCIUM_PERC_DAILY_VALUE),
-               SUM(mi.IRON_PERC_DAILY_VALUE)
-             FROM MC_90_DAYS_MENU_ITEM d
-             JOIN MC_MENU_ITEM mi
-               ON mi.menu_item_id = d.menu_item_id
-            WHERE d.day_number = p_day_number
-       )
-     WHERE m.DAY_NUMBER = p_day_number;
-
 END MC_CREATE_RANDOM_MENU;
 /
